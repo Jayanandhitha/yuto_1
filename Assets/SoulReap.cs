@@ -1,10 +1,14 @@
 using UnityEngine;
+
 public class SoulReap : MonoBehaviour
 {
     public float decayTime = 5f;
     public float corruptedLifeTime = 6f;
     public float chaseSpeed = 2f;
     public int damage = 1;
+
+    public Sprite goodSpirit;     // normal sprite
+    public Sprite corruptedSpirit; // red sprite
 
     private float timer;
     private float corruptedTimer;
@@ -18,6 +22,8 @@ public class SoulReap : MonoBehaviour
     {
         timer = decayTime;
         sr = GetComponent<SpriteRenderer>();
+
+        sr.sprite = goodSpirit; // start as normal spirit
     }
 
     void Update()
@@ -57,7 +63,8 @@ public class SoulReap : MonoBehaviour
     {
         corrupted = true;
         corruptedTimer = corruptedLifeTime;
-        sr.color = Color.red;
+
+        sr.sprite = corruptedSpirit; // swap sprite
     }
 
     void ChasePlayer()
@@ -79,6 +86,7 @@ public class SoulReap : MonoBehaviour
             }
         }
     }
+
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
