@@ -146,8 +146,9 @@ MonoBehaviour:
   corruptedLifeTime: 20
   chaseSpeed: 3
   damage: 1
+  reapDistance: 1.5
   goodSpirit: {fileID: -5470068573143467627, guid: f4d560b901ed91f419a328bfb6451655, type: 3}
-  corruptedSpirit: {fileID: -7888403815815424165, guid: 066a6c27b45db454389c8629f4edcf4a, type: 3}
+  corruptedSpirit: {fileID: 4292523659083741001, guid: 240c0c9da8cc4f14c989d2b15e8b6f15, type: 3}
 --- !u!1 &4625859407667641094
 GameObject:
   m_ObjectHideFlags: 0

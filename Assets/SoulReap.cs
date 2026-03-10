@@ -7,14 +7,16 @@ public class SoulReap : MonoBehaviour
     public float chaseSpeed = 2f;
     public int damage = 1;
 
+    public float reapDistance = 1.5f;
+
     public Sprite goodSpirit;
     public Sprite corruptedSpirit;
 
     private float timer;
     private float corruptedTimer;
 
-    private bool playerNear = false;
     private bool corrupted = false;
+    private bool destroyed = false;
 
     private PlayerMovement player;
     private SpriteRenderer sr;
@@ -24,48 +26,55 @@ public class SoulReap : MonoBehaviour
         timer = decayTime;
 
         sr = GetComponent<SpriteRenderer>();
-
         sr.sprite = goodSpirit;
 
-        // Always find the player
         player = FindObjectOfType<PlayerMovement>();
     }
 
     void Update()
     {
+        if (destroyed || player == null) return;
+
         if (!corrupted)
         {
             timer -= Time.deltaTime;
 
-            if (timer <= 0)
+            if (timer <= 0f)
             {
                 Corrupt();
             }
 
-            if (playerNear && Input.GetKeyDown(KeyCode.E))
+            float dist = Vector3.Distance(player.transform.position, transform.position);
+
+            if (dist <= reapDistance && Input.GetKeyDown(KeyCode.Space))
             {
                 Reap();
+                return;
             }
         }
         else
         {
             corruptedTimer -= Time.deltaTime;
 
-            if (corruptedTimer <= 0)
+            if (corruptedTimer <= 0f)
             {
+                destroyed = true;
                 Destroy(gameObject);
+                return;
             }
 
-            if (player != null)
-            {
-                ChasePlayer();
-            }
+            ChasePlayer();
         }
     }
 
     void Reap()
     {
-        player.AddEssence();
+        if (player != null)
+        {
+            player.AddEssence();
+        }
+
+        destroyed = true;
         Destroy(gameObject);
     }
 
@@ -82,26 +91,12 @@ public class SoulReap : MonoBehaviour
         Vector3 direction = (player.transform.position - transform.position).normalized;
 
         transform.position += direction * chaseSpeed * Time.deltaTime;
-    }
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
+        float dist = Vector3.Distance(player.transform.position, transform.position);
+
+        if (dist < 0.8f)
         {
-            playerNear = true;
-
-            if (corrupted)
-            {
-                player.TakeDamage(damage);
-            }
-        }
-    }
-
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerNear = false;
+            player.TakeDamage(damage);
         }
     }
 }
