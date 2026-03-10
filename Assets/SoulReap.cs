@@ -7,11 +7,12 @@ public class SoulReap : MonoBehaviour
     public float chaseSpeed = 2f;
     public int damage = 1;
 
-    public Sprite goodSpirit;     // normal sprite
-    public Sprite corruptedSpirit; // red sprite
+    public Sprite goodSpirit;
+    public Sprite corruptedSpirit;
 
     private float timer;
     private float corruptedTimer;
+
     private bool playerNear = false;
     private bool corrupted = false;
 
@@ -21,9 +22,13 @@ public class SoulReap : MonoBehaviour
     void Start()
     {
         timer = decayTime;
+
         sr = GetComponent<SpriteRenderer>();
 
-        sr.sprite = goodSpirit; // start as normal spirit
+        sr.sprite = goodSpirit;
+
+        // Always find the player
+        player = FindObjectOfType<PlayerMovement>();
     }
 
     void Update()
@@ -35,6 +40,11 @@ public class SoulReap : MonoBehaviour
             if (timer <= 0)
             {
                 Corrupt();
+            }
+
+            if (playerNear && Input.GetKeyDown(KeyCode.E))
+            {
+                Reap();
             }
         }
         else
@@ -51,12 +61,12 @@ public class SoulReap : MonoBehaviour
                 ChasePlayer();
             }
         }
+    }
 
-        if (playerNear && Input.GetKeyDown(KeyCode.E) && !corrupted)
-        {
-            player.AddEssence();
-            Destroy(gameObject);
-        }
+    void Reap()
+    {
+        player.AddEssence();
+        Destroy(gameObject);
     }
 
     void Corrupt()
@@ -64,12 +74,13 @@ public class SoulReap : MonoBehaviour
         corrupted = true;
         corruptedTimer = corruptedLifeTime;
 
-        sr.sprite = corruptedSpirit; // swap sprite
+        sr.sprite = corruptedSpirit;
     }
 
     void ChasePlayer()
     {
         Vector3 direction = (player.transform.position - transform.position).normalized;
+
         transform.position += direction * chaseSpeed * Time.deltaTime;
     }
 
@@ -78,7 +89,6 @@ public class SoulReap : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerNear = true;
-            player = other.GetComponent<PlayerMovement>();
 
             if (corrupted)
             {
