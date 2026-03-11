@@ -4,13 +4,21 @@ public class SoulSpawner : MonoBehaviour
 {
     public GameObject soulPrefab;
 
-    public float spawnInterval = 5f;
-    public float spawnRadius = 15f;
+    public float spawnInterval = 8f;
+    public float spawnRadius = 20f;
 
-    private float timer;
+    float timer;
+
+    void Start()
+    {
+        timer = spawnInterval;
+    }
 
     void Update()
     {
+        if (soulPrefab == null)
+            return;
+
         timer += Time.deltaTime;
 
         if (timer >= spawnInterval)
@@ -24,7 +32,7 @@ public class SoulSpawner : MonoBehaviour
     {
         Vector2 randomPosition = Random.insideUnitCircle * spawnRadius;
 
-        Vector3 spawnPos = new Vector3(
+        Vector3 spawnPos = transform.position + new Vector3(
             randomPosition.x,
             randomPosition.y,
             0

@@ -12,12 +12,13 @@ public class PlayerMovement : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI gameText;
 
-    public float attackRange = 2f;
+    public float attackRange = 4f;
     public float attackAngle = 90f;
 
-    public GameObject attackArcPrefab;
-
     private SpriteRenderer sr;
+
+    // Stores last movement direction for attacking
+    private Vector3 lastMoveDir = Vector3.up;
 
     void Start()
     {
@@ -33,50 +34,50 @@ public class PlayerMovement : MonoBehaviour
         {
             Attack();
         }
-
-        UpdateUI();
     }
 
     void Move()
     {
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
-
         Vector3 move = new Vector3(x, y, 0);
         transform.position += move * speed * Time.deltaTime;
 
         if (move != Vector3.zero)
-            transform.up = move;
+        {
+            lastMoveDir = move.normalized;
+        }
+        if (x > 0)
+            sr.flipX = false;
+        else if (x < 0)
+            sr.flipX = true;
     }
 
     void Attack()
-{
-    // Create the silver arc slash using code
-    GameObject arc = new GameObject("ScytheArc");
-    arc.transform.position = transform.position;
-    arc.transform.rotation = transform.rotation;
-    arc.AddComponent<ScytheArc>();
-
-    // Find all souls in the scene
-    SoulReap[] souls = FindObjectsByType<SoulReap>(FindObjectsSortMode.None);
-
-    foreach (SoulReap soul in souls)
     {
-        Vector3 dir = soul.transform.position - transform.position;
+        GameObject arc = new GameObject("ScytheArc");
+        arc.transform.parent = transform;
+        arc.transform.localPosition = Vector3.up * 0.5f;
+        arc.transform.up = lastMoveDir;
+        arc.AddComponent<ScytheArc>();
 
-        // Check attack range
-        if (dir.magnitude > attackRange)
-            continue;
+        SoulReap[] souls = FindObjectsByType<SoulReap>(FindObjectsSortMode.None);
 
-        // Check if soul is inside the attack cone
-        float angle = Vector3.Angle(transform.up, dir);
-
-        if (angle <= attackAngle / 2f)
+        foreach (SoulReap soul in souls)
         {
-            soul.HitByScythe(transform.position);
+            Vector3 dir = soul.transform.position - transform.position;
+
+            if (dir.magnitude > attackRange)
+                continue;
+
+            float angle = Vector3.Angle(lastMoveDir, dir);
+
+            if (angle <= attackAngle / 2f)
+            {
+                soul.HitByScythe(transform.position);
+            }
         }
     }
-}
 
     void UpdateUI()
     {
@@ -98,11 +99,13 @@ public class PlayerMovement : MonoBehaviour
         health -= amount;
 
         sr.color = Color.red;
-        Invoke("ResetColor", 0.2f);
+        Invoke(nameof(ResetColor), 0.2f);
 
         if (health <= 0)
         {
-            gameText.text = "GAME OVER";
+            if (gameText != null)
+                gameText.text = "GAME OVER";
+
             Time.timeScale = 0f;
         }
 
