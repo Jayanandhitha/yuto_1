@@ -3,23 +3,29 @@ using UnityEngine;
 public class SoulReap : MonoBehaviour
 {
     public float decayTime = 5f;
-    public float corruptedLifeTime = 6f;
-    public float chaseSpeed = 2f;
-    public int damage = 1;
+    public float corruptedLifeTime = 10f;
 
-    public float reapDistance = 1.5f;
+    public float chaseSpeed = 2f;
+
+    public int damage = 1;
 
     public Sprite goodSpirit;
     public Sprite corruptedSpirit;
+
+    public float knockbackForce = 2f;
+
+    public float damageInterval = 1f;
 
     private float timer;
     private float corruptedTimer;
 
     private bool corrupted = false;
-    private bool destroyed = false;
 
     private PlayerMovement player;
     private SpriteRenderer sr;
+
+    private int hitCount = 0;
+    private float damageTimer = 0f;
 
     void Start()
     {
@@ -28,12 +34,12 @@ public class SoulReap : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         sr.sprite = goodSpirit;
 
-        player = FindObjectOfType<PlayerMovement>();
+        player = FindFirstObjectByType<PlayerMovement>();
     }
 
     void Update()
     {
-        if (destroyed || player == null) return;
+        if (player == null) return;
 
         if (!corrupted)
         {
@@ -43,14 +49,6 @@ public class SoulReap : MonoBehaviour
             {
                 Corrupt();
             }
-
-            float dist = Vector3.Distance(player.transform.position, transform.position);
-
-            if (dist <= reapDistance && Input.GetKeyDown(KeyCode.Space))
-            {
-                Reap();
-                return;
-            }
         }
         else
         {
@@ -58,24 +56,12 @@ public class SoulReap : MonoBehaviour
 
             if (corruptedTimer <= 0f)
             {
-                destroyed = true;
                 Destroy(gameObject);
                 return;
             }
 
             ChasePlayer();
         }
-    }
-
-    void Reap()
-    {
-        if (player != null)
-        {
-            player.AddEssence();
-        }
-
-        destroyed = true;
-        Destroy(gameObject);
     }
 
     void Corrupt()
@@ -96,7 +82,33 @@ public class SoulReap : MonoBehaviour
 
         if (dist < 0.8f)
         {
-            player.TakeDamage(damage);
+            damageTimer += Time.deltaTime;
+
+            if (damageTimer >= damageInterval)
+            {
+                player.TakeDamage(damage);
+                damageTimer = 0f;
+            }
+        }
+    }
+
+    public void HitByScythe(Vector3 playerPos)
+    {
+        if (!corrupted)
+        {
+            player.AddEssence();
+            Destroy(gameObject);
+            return;
+        }
+
+        hitCount++;
+
+        Vector3 knockDir = (transform.position - playerPos).normalized;
+        transform.position += knockDir * knockbackForce;
+
+        if (hitCount >= 3)
+        {
+            Destroy(gameObject);
         }
     }
 }
