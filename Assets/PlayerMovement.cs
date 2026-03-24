@@ -14,6 +14,10 @@ public class PlayerMovement : MonoBehaviour
 
     public float attackRange = 4f;
     public float attackAngle = 90f;
+    public GameObject boss;       // drag boss prefab here
+    public GameObject gate;       // drag gate object here
+    private bool bossTriggered = false;
+    public SoulSpawner spawner; // drag in inspector
 
     private SpriteRenderer sr;
 
@@ -63,6 +67,23 @@ public class PlayerMovement : MonoBehaviour
 
         SoulReap[] souls = FindObjectsByType<SoulReap>(FindObjectsSortMode.None);
 
+        Boss[] bosses = FindObjectsByType<Boss>(FindObjectsSortMode.None);
+
+        foreach (Boss boss in bosses)
+        {
+            Vector3 dir = boss.transform.position - transform.position;
+
+            if (dir.magnitude > attackRange)
+                continue;
+
+            float angle = Vector3.Angle(lastMoveDir, dir);
+
+            if (angle <= attackAngle / 2f)
+            {
+                boss.TakeDamage(1, transform.position);
+            }
+        }
+
         foreach (SoulReap soul in souls)
         {
             Vector3 dir = soul.transform.position - transform.position;
@@ -92,6 +113,10 @@ public class PlayerMovement : MonoBehaviour
     {
         essence++;
         UpdateUI();
+        if (essence >= 1 && !bossTriggered)
+        {
+            ActivateBossArea();
+        }
     }
 
     public void TakeDamage(int amount)
@@ -110,6 +135,21 @@ public class PlayerMovement : MonoBehaviour
         }
 
         UpdateUI();
+    }
+    void ActivateBossArea()
+    {
+        bossTriggered = true;
+        if (gate != null)
+            gate.SetActive(false);
+        if (boss != null)
+            boss.SetActive(true);
+        if (spawner != null)
+            spawner.canSpawn = false;
+        SoulReap[] souls = FindObjectsByType<SoulReap>(FindObjectsSortMode.None);
+        foreach (SoulReap soul in souls)
+        {
+            Destroy(soul.gameObject);
+        }
     }
 
     void ResetColor()

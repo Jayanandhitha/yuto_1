@@ -9,6 +9,8 @@ public class SoulSpawner : MonoBehaviour
 
     float timer;
 
+    public bool canSpawn = true; // 👈 NEW
+
     void Start()
     {
         timer = spawnInterval;
@@ -16,6 +18,8 @@ public class SoulSpawner : MonoBehaviour
 
     void Update()
     {
+        if (!canSpawn) return; // 👈 STOP spawning
+
         if (soulPrefab == null)
             return;
 
