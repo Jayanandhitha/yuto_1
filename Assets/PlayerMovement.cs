@@ -14,10 +14,10 @@ public class PlayerMovement : MonoBehaviour
 
     public float attackRange = 4f;
     public float attackAngle = 90f;
-    public GameObject boss;       // drag boss prefab here
-    public GameObject gate;       // drag gate object here
+    public GameObject boss;
+    public GameObject gate;
     private bool bossTriggered = false;
-    public SoulSpawner spawner; // drag in inspector
+    public SoulSpawner spawner;
 
     private SpriteRenderer sr;
 

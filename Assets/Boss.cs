@@ -5,21 +5,20 @@ public class Boss : MonoBehaviour
 {
     public int health = 1;
     public float speed = 2f;
-
     public GameObject teleporter; // assign in inspector
     public int contactDamage = 1;
     public float damageInterval = 1f;
-
     private float damageTimer = 0f;
     private Transform player;
     public float knockbackForce = 1.5f;
     public float knockbackDuration = 0.15f;
     public Image healthFill;
-
     private int maxHealth;
+    private SpriteRenderer sr;
 
     void Start()
     {
+        sr = GetComponent<SpriteRenderer>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         maxHealth = health;
     }
@@ -27,10 +26,12 @@ public class Boss : MonoBehaviour
     void Update()
     {
         if (player == null) return;
-
-        // Simple chase AI
         Vector3 dir = (player.position - transform.position).normalized;
         transform.position += dir * speed * Time.deltaTime;
+        if (dir.x > 0)
+            sr.flipX = false;
+        else if (dir.x < 0)
+            sr.flipX = true;
     }
     
 

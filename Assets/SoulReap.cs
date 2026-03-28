@@ -71,10 +71,12 @@ public class SoulReap : MonoBehaviour
     void ChasePlayer()
     {
         Vector3 direction = (player.transform.position - transform.position).normalized;
-
         transform.position += direction * chaseSpeed * Time.deltaTime;
 
-        float dist = Vector3.Distance(player.transform.position, transform.position);
+        if (Mathf.Abs(direction.x) > 0.1f)
+        {
+            sr.flipX = direction.x < 0;
+        }
     }
 
     void OnTriggerStay2D(Collider2D other)
