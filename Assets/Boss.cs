@@ -15,12 +15,15 @@ public class Boss : MonoBehaviour
     public Image healthFill;
     private int maxHealth;
     private SpriteRenderer sr;
+    public Sprite normalSprite;
+    public Sprite hitSprite;
 
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         maxHealth = health;
+        sr.sprite = normalSprite;
     }
 
     void Update()
@@ -58,9 +61,9 @@ public class Boss : MonoBehaviour
     {
         health -= amount;
         UpdateHealthBar();
+        StartCoroutine(HitFlash());
         Vector3 knockDir = (transform.position - attackerPos).normalized;
         StartCoroutine(SmoothKnockback(knockDir, knockbackForce));
-
         if (health <= 0)
         {
             Die();
@@ -89,6 +92,16 @@ public class Boss : MonoBehaviour
             healthFill.fillAmount = (float)health / maxHealth;
         }
     }
+
+    System.Collections.IEnumerator HitFlash()
+    {
+        sr.sprite = hitSprite;
+
+        yield return new WaitForSeconds(0.5f);
+
+        sr.sprite = normalSprite;
+    }
+
     void Die()
     {
         if (teleporter != null)

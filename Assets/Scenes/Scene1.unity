@@ -714,6 +714,8 @@ MonoBehaviour:
   knockbackForce: 1.5
   knockbackDuration: 0.15
   healthFill: {fileID: 412156126}
+  normalSprite: {fileID: 4292523659083741001, guid: 240c0c9da8cc4f14c989d2b15e8b6f15, type: 3}
+  hitSprite: {fileID: 4292523659083741001, guid: 240c0c9da8cc4f14c989d2b15e8b6f15, type: 3}
 --- !u!50 &382403192
 Rigidbody2D:
   serializedVersion: 5
@@ -779,7 +781,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 4130844232983982232, guid: 18d7807c4debb194d903c2370b1f7168, type: 3}
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2435,12 +2437,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 8409234884740282508, guid: b2ed15c4dbd42894ba7573b3182c8611, type: 3}
+  m_Sprite: {fileID: 5619622998717619164, guid: b12c50e2462d0164a9c960d8b79c48de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.62, y: 1.92}
+  m_Size: {x: 1.72, y: 1.7}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

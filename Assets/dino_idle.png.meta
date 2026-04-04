@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 18d7807c4debb194d903c2370b1f7168
+guid: 25d6343c222628645a807b52efd8098d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4130844232983982232
-    second: dessert_placeholder_0
+      213: -4088451309014929012
+    second: dino_idle_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: dessert_placeholder_0
+      name: dino_idle_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 698
-        height: 360
+        x: 3
+        y: 7
+        width: 494
+        height: 490
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8903b7991f4b35930800000000000000
-      internalID: 4130844232983982232
+      spriteID: c813fac2237e247c0800000000000000
+      internalID: -4088451309014929012
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      dessert_placeholder_0: 4130844232983982232
+      dino_idle_0: -4088451309014929012
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

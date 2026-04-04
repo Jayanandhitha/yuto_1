@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 066a6c27b45db454389c8629f4edcf4a
+guid: b12c50e2462d0164a9c960d8b79c48de
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7888403815815424165
-    second: red_sprite_0
+      213: 5619622998717619164
+    second: teleporter-removebg-preview_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,30 +96,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: red_sprite_0
+      name: teleporter-removebg-preview_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 5
-        width: 660
-        height: 370
+        x: 45
+        y: 11
+        width: 172
+        height: 170
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b575c792682c68290800000000000000
-      internalID: -7888403815815424165
+      spriteID: cdbdd22e759ecfd40800000000000000
+      internalID: 5619622998717619164
       vertices: []
       indices: 
       edges: []
@@ -148,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      red_sprite_0: -7888403815815424165
+      teleporter-removebg-preview_0: 5619622998717619164
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
